@@ -12,15 +12,12 @@ body {
 canvas {
   display: block;
   background-color: #1a1a1a;
-  cursor: crosshair;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-}
-canvas:active {
-  cursor: grabbing;
+  z-index: 1;
 }
 
 #ui-layer {
@@ -41,6 +38,7 @@ canvas:active {
   max-height: 44px;
   overflow: hidden;
 }
+
 .panel-header {
   display: flex;
   justify-content: space-between;
@@ -53,9 +51,7 @@ canvas:active {
   top: 0;
   z-index: 11;
 }
-.panel-header:hover {
-  background: #2b2b2b;
-}
+.panel-header:hover { background: #2b2b2b; }
 .panel-header h2 {
   margin: 0;
   font-size: 14px;
@@ -67,9 +63,7 @@ canvas:active {
   font-size: 12px;
   transition: transform 0.3s ease;
 }
-#ui-layer.collapsed .toggle-icon {
-  transform: rotate(180deg);
-}
+#ui-layer.collapsed .toggle-icon { transform: rotate(180deg); }
 
 .tab-header {
   display: flex;
@@ -79,8 +73,8 @@ canvas:active {
 .tab-btn {
   flex: 1;
   text-align: center;
-  padding: 10px 4px;
-  font-size: 10px;
+  padding: 10px 2px;
+  font-size: 9px;
   font-weight: bold;
   color: #888;
   cursor: pointer;
@@ -89,19 +83,14 @@ canvas:active {
   align-items: center;
   justify-content: center;
 }
-.tab-btn:hover {
-  color: #fff;
-  background: #222;
-}
+.tab-btn:hover { color: #fff; background: #222; }
 .tab-btn.active {
   color: #00e5ff;
   border-bottom: 2px solid #00e5ff;
   background: #1a1a1a;
 }
 
-.panel-body {
-  padding: 15px;
-}
+.panel-body { padding: 15px; }
 p {
   margin-top: 0;
   font-size: 12px;
@@ -114,9 +103,7 @@ p {
   padding-bottom: 10px;
   border-bottom: 1px solid #333;
 }
-.control-group:last-child {
-  border-bottom: none;
-}
+.control-group:last-child { border-bottom: none; }
 .control-group label {
   display: block;
   font-size: 11px;
@@ -144,10 +131,9 @@ p {
 .slider-row span {
   font-size: 11px;
   color: #888;
-  width: 55px;
+  width: 50px;
   flex-shrink: 0;
 }
-
 .slider-container {
   position: relative;
   flex-grow: 1;
@@ -166,21 +152,21 @@ input[type="range"] {
 
 .slider-ticks {
   position: absolute;
-  left: 7px;
-  right: 7px;
+  left: 2px;
+  right: 2px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
   pointer-events: none;
-  z-index: 3;
+  z-index: 1;
 }
 .tick-dot {
-  width: 4px;
-  height: 4px;
-  background-color: #ffffff;
+  width: 2px;
+  height: 2px;
+  background-color: #fff;
   border-radius: 50%;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .mode-btn {
@@ -196,9 +182,7 @@ input[type="range"] {
   transition: all 0.2s;
   margin-bottom: 8px;
 }
-.mode-btn:hover {
-  opacity: 0.9;
-}
+.mode-btn:hover { opacity: 0.9; }
 
 #actionBtn {
   background-color: #00ff7f;
@@ -212,42 +196,31 @@ input[type="range"] {
   color: #fff;
 }
 
-#trailsBtn {
+.reset-btn-theme {
+  background-color: #222;
+  color: #ff3366;
+  border: 1px solid #ff3366;
+}
+.reset-btn-theme:hover {
+  background-color: #ff3366;
+  color: #000;
+}
+
+#overlayBtn {
   background-color: #222;
   color: #ff9900;
   border: 1px solid #ff9900;
 }
-#trailsBtn.active {
+#overlayBtn.active {
   background-color: #ff9900;
   color: #000;
-}
-
-#gridBtn {
-  background-color: #222;
-  color: #00e5ff;
-  border: 1px solid #00e5ff;
-}
-#gridBtn.active {
-  background-color: #00e5ff;
-  color: #000;
-}
-
-#vectorsBtn {
-  background-color: #222;
-  color: #ffff00;
-  border: 1px solid #ffff00;
-  margin-bottom: 15px;
-}
-#vectorsBtn.active {
-  background-color: #ffff00;
-  color: #000;
+  box-shadow: 0 0 10px rgba(255, 153, 0, 0.4);
 }
 
 .preset-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 5px;
 }
 .preset-grid .mode-btn {
   margin-bottom: 0;
@@ -255,18 +228,19 @@ input[type="range"] {
   color: #ddd;
   border: 1px solid #444;
 }
-.preset-grid .mode-btn:hover, .preset-grid .mode-btn.active {
+.preset-grid .mode-btn.active {
   background-color: #00e5ff;
   color: #000;
   border-color: #00e5ff;
 }
 
+/* TELEMETRY */
 #telemetry-control {
   position: absolute;
   bottom: 25px;
   right: 25px;
   z-index: 10;
-  min-width: 190px;
+  min-width: 210px;
 }
 #telemetryBtn {
   display: block;
@@ -274,70 +248,53 @@ input[type="range"] {
   background: rgba(20, 20, 20, 0.92);
   color: #00e5ff;
   border: 1px solid #333;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 5px;
   cursor: pointer;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
-#telemetryBtn:hover {
-  background: #222;
+  font-size: 11px;
+  font-weight: bold;
 }
 #telemetry-dropdown {
-  background: rgba(20, 20, 20, 0.95);
+  background: rgba(15, 15, 15, 0.95);
   border: 1px solid #333;
-  border-radius: 6px;
+  border-radius: 5px;
   padding: 10px;
   margin-bottom: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  display: block;
 }
 .telem-label {
   font-size: 10px;
   color: #666;
   font-weight: bold;
-  margin-bottom: 6px;
   letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 4px;
 }
 .telem-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 4px;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: monospace;
   font-size: 11px;
-  color: #ccc;
-  cursor: pointer;
-}
-.telem-row:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.03);
+  color: #eee;
 }
 .telem-pip {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  border: 1px solid #555;
-  background: #222;
-  flex-shrink: 0;
-}
-.telem-pip.on {
   background: #00e5ff;
-  border-color: #00e5ff;
-  box-shadow: 0 0 4px rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 4px #00e5ff;
 }
 
+/* GUIDE SUB-ITEMS */
 .guide-row {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
   margin-bottom: 6px;
-  line-height: 1.3;
-}
-.guide-row span:last-child {
-  color: #aaa;
-  text-align: right;
-  max-width: 180px;
+  color: #ccc;
 }
 .guide-key {
   background: #333;
@@ -346,21 +303,4 @@ input[type="range"] {
   border-radius: 3px;
   font-family: monospace;
   font-weight: bold;
-}
-
-.body-config-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid #333;
-  border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-.body-config-title {
-  font-size: 11px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-transform: uppercase;
 }

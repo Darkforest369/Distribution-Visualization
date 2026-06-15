@@ -1,2 +1,3 @@
-# 3-Body-Simulation
-Three Body Choaic Simulation
+# Distribution Visualizations
+
+This is to let user visualize distributions through randomly falling balls

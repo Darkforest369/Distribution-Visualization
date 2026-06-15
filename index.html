@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="only dark">
-  <title>Chaotic N-Body Sandbox: Gravitational Edition</title>
+  <title>Distribution Visualizations: Galton Board Sandbox</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,83 +15,87 @@
     </div>
 
     <div class="tab-header">
-      <div class="tab-btn active" id="tabLiveBtn">CONTROLS</div>
-      <div class="tab-btn" id="tabBodiesBtn">INITIAL CONDITIONS</div>
+      <div class="tab-btn active" id="tabControlsBtn">CONTROLS</div>
+      <div class="tab-btn" id="tabParamsBtn">PROBABILITY SETTINGS</div>
       <div class="tab-btn" id="tabEnvBtn">ENVIRONMENT</div>
       <div class="tab-btn" id="tabGuideBtn">GUIDE</div>
     </div>
 
     <div class="panel-body">
-      <button id="actionBtn" class="mode-btn">🚀 RELEASE ORBITS</button>
+      <button id="actionBtn" class="mode-btn">🚀 ACTIVATE SPAWNER</button>
 
       <div id="pageControls">
-        <p>Select an orbital configuration or toggle advanced runtime modifiers.</p>
+        <p>Manage real-time execution modifiers for the ball drop sequence.</p>
+        <button id="clearBtn" class="mode-btn reset-btn-theme">🧹 CLEAR HISTOGRAM</button>
+        <button id="overlayBtn" class="mode-btn active">Theoretical Curve: ON</button>
         
         <div class="control-group">
-          <label>ORBITAL PRESETS</label>
-          <div class="preset-grid">
-            <button class="mode-btn preset-btn active" data-preset="figure8">♾️ Figure-Eight</button>
-            <button class="mode-btn preset-btn" data-preset="chaotic">🌀 Chaotic Trio</button>
-            <button class="mode-btn preset-btn" data-preset="lagrange">📐 Lagrange L4</button>
-            <button class="mode-btn preset-btn" data-preset="binary">🪐 Double Star</button>
+          <label>SPAWN MODE</label>
+          <div class="preset-grid" style="margin-top: 5px;">
+            <button class="mode-btn active spawn-mode-btn" data-mode="continuous">Stream</button>
+            <button class="mode-btn spawn-mode-btn" data-mode="burst">Burst (50)</button>
           </div>
         </div>
-
-        <button id="trailsBtn" class="mode-btn active">Trails: ON</button>
-        <button id="gridBtn" class="mode-btn active">Grid: ON</button>
-        <button id="vectorsBtn" class="mode-btn active">Velocity Vectors: ON</button>
       </div>
 
-      <div id="pageBodies" style="display: none;">
-        <p>Configure celestial bodies, masses, and configurations dynamically.</p>
+      <div id="pageParams" style="display: none;">
+        <p>Configure structural pins and binomial generation weights.</p>
         
         <div class="control-group">
-          <label>COSMIC POPULATION</label>
-          <div class="ratio-display" id="bodyCountTxt" style="color: #00e5ff;">3 BODIES</div>
+          <label>PEG ROWS (TRIANGLE DEPTH)</label>
+          <div class="ratio-display" id="rowsTxt" style="color: #00e5ff;">8 ROWS</div>
           <div class="slider-row">
-            <span>Count</span>
+            <span>Rows</span>
             <div class="slider-container">
-              <input type="range" id="bodyCountSlider" min="2" max="5" step="1" value="3">
-              <div class="slider-ticks" data-ticks="4"></div>
+              <input type="range" id="rowsSlider" min="4" max="16" step="1" value="8">
+              <div class="slider-ticks" data-ticks="13"></div>
             </div>
           </div>
         </div>
 
-        <div id="bodyControlContainer"></div>
+        <div class="control-group">
+          <label>SUCCESS PROBABILITY (p)</label>
+          <div class="ratio-display" id="probTxt" style="color: #ff9900;">0.50 (Symmetric)</div>
+          <div class="slider-row">
+            <span>Bias</span>
+            <div class="slider-container">
+              <input type="range" id="probSlider" min="0.1" max="0.9" step="0.01" value="0.5" style="accent-color: #ff9900;">
+            </div>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label>BALL RADIUS</label>
+          <div class="ratio-display" id="radiusTxt">6px</div>
+          <div class="slider-row">
+            <span>Size</span>
+            <div class="slider-container">
+              <input type="range" id="radiusSlider" min="4" max="10" step="1" value="6">
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="pageEnv" style="display: none;">
-        <p>Alter the fundamental laws governing this gravitational engine.</p>
-        
+        <p>Modify local physical parameters governing kinematic collisions.</p>
         <div class="control-group">
-          <label>GRAVITATIONAL CONSTANT (G)</label>
-          <div class="ratio-display" id="gTxt">10.00</div>
+          <label>GRAVITATIONAL FORCE</label>
+          <div class="ratio-display" id="gravityTxt">9.81 m/s²</div>
           <div class="slider-row">
-            <span>G Force</span>
+            <span>Gravity</span>
             <div class="slider-container">
-              <input type="range" id="gSlider" min="1" max="50" step="0.5" value="10">
+              <input type="range" id="gravitySlider" min="3.0" max="25.0" step="0.1" value="9.81">
             </div>
           </div>
         </div>
 
         <div class="control-group">
-          <label>COLLISION SOFTENING (Stability)</label>
-          <div class="ratio-display" id="softeningTxt">15.0 px</div>
+          <label>ELASTIC COEFFICIENT (RESTITUTION)</label>
+          <div class="ratio-display" id="elasticityTxt">0.45</div>
           <div class="slider-row">
-            <span>Softening</span>
+            <span>Bounce</span>
             <div class="slider-container">
-              <input type="range" id="softeningSlider" min="0" max="50" step="1" value="15">
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group" style="border-bottom: none;">
-          <label>WARP SPEED (Substeps)</label>
-          <div class="ratio-display" id="substepsTxt">10 steps/frame</div>
-          <div class="slider-row">
-            <span>Precision</span>
-            <div class="slider-container">
-              <input type="range" id="substepsSlider" min="1" max="30" step="1" value="10">
+              <input type="range" id="elasticitySlider" min="0.1" max="0.8" step="0.05" value="0.45">
             </div>
           </div>
         </div>
@@ -99,44 +103,46 @@
 
       <div id="pageGuide" style="display: none;">
         <div class="control-group">
-          <label>KEYBOARD SHORTCUTS</label>
-          <div class="guide-row"><span class="guide-key">Space</span><span>Release / Pause simulation</span></div>
-          <div class="guide-row"><span class="guide-key">R</span><span>Reset current preset layout</span></div>
-          <div class="guide-row"><span class="guide-key">T</span><span>Toggle Trails view</span></div>
-          <div class="guide-row"><span class="guide-key">G</span><span>Toggle Grid Alignment</span></div>
+          <label>KEYBOARD CONTROLS</label>
+          <div class="guide-row"><span class="guide-key">Space</span><span>Toggle Drop Spawner</span></div>
+          <div class="guide-row"><span class="guide-key">C</span><span>Clear current matrix data</span></div>
+          <div class="guide-row"><span class="guide-key">H</span><span>Toggle Theoretical Curve</span></div>
         </div>
-
         <div class="control-group" style="border-bottom: none;">
-          <label>MOUSE &amp; TOUCH INTERACTIONS</label>
-          <div class="guide-row"><span class="guide-key">Drag Body</span><span>Reposition any object (while paused)</span></div>
-          <div class="guide-row"><span class="guide-key">Drag Arrow</span><span>Adjust velocity vector directly (while paused)</span></div>
-          <div class="guide-row"><span class="guide-key">Scroll</span><span>Zoom view window (0.2× – 5×)</span></div>
+          <label>THEORY SUMMARY</label>
+          <p style="font-size:11px; margin-bottom:0;">
+            Each pin hit functions as an independent Bernoulli trial. Total rightward bounces follow the Binomial distribution:
+            <br><br><span style="color:#00e5ff; font-family:monospace;">P(K = k) = nCr(n,k) * pᵏ * (1-p)ⁿ⁻ᵏ</span>
+          </p>
         </div>
       </div>
     </div>
   </div>
 
   <div id="telemetry-control">
-    <div id="telemetry-dropdown" style="display: none;">
-      <div class="telem-label">TELEMETRY DIAGRAMS</div>
-      <div class="telem-row" id="rowEnergy">
-        <div class="telem-pip on" id="pipEnergy"></div>
-        <span>Net Energy Tracking</span>
+    <div id="telemetry-dropdown">
+      <div class="telem-label">LIVE DATA SUMMARY</div>
+      <div class="telem-row">
+        <div class="telem-pip on"></div>
+        <span id="telemCount">Total Balls: 0</span>
       </div>
-      <div class="telem-row" id="rowCom">
-        <div class="telem-pip on" id="pipCom"></div>
-        <span>Center of Mass Indicator</span>
+      <div class="telem-row">
+        <div class="telem-pip on" style="background:#ff9900; border-color:#ff9900; box-shadow:0 0 4px #ff9900;"></div>
+        <span id="telemMean">Mean (μ): 0.00</span>
       </div>
-      <div class="telem-row" id="rowFps">
-        <div class="telem-pip on" id="pipFps"></div>
-        <span>Real-time FPS Engine</span>
+      <div class="telem-row">
+        <div class="telem-pip on" style="background:#ff00ff; border-color:#ff00ff; box-shadow:0 0 4px #ff00ff;"></div>
+        <span id="telemVariance">Var (σ²): 0.00</span>
+      </div>
+      <div class="telem-row">
+        <div class="telem-pip on" style="background:#00ff7f; border-color:#00ff7f; box-shadow:0 0 4px #00ff7f;"></div>
+        <span id="telemFps">FPS: --</span>
       </div>
     </div>
-    <button id="telemetryBtn">TELEMETRY ▲</button>
+    <button id="telemetryBtn">STATISTICS ▲</button>
   </div>
 
   <canvas id="canvas"></canvas>
-
   <script src="script.js"></script>
 </body>
 </html>

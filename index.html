@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <title>Chaotic N-Body Gravity Sandbox</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="ui-layer">
+    <div class="panel-header" id="panelHeader">
+      <h2>GRAVITY SANDBOX SETTINGS</h2>
+      <span class="toggle-icon" id="toggleIcon">▲</span>
+    </div>
+
+    <div class="tab-header">
+      <div class="tab-btn active" id="tabLiveBtn">CONTROLS</div>
+      <div class="tab-btn" id="tabPresetsBtn">INITIAL PRESETS</div>
+      <div class="tab-btn" id="tabEnvBtn">ENVIRONMENT</div>
+      <div class="tab-btn" id="tabGuideBtn">GUIDE</div>
+    </div>
+
+    <div class="panel-body">
+      <button id="actionBtn" class="mode-btn">⏸️ PAUSE SIMULATION</button>
+
+      <div id="pageControls">
+        <p>Modify sandbox behaviors and visual properties in real-time.</p>
+        <button id="gridBtn" class="mode-btn active">Grid Overlay: ON</button>
+        <button id="trailsBtn" class="mode-btn active">Particle Trails: ON</button>
+        <button id="clearBtn" class="mode-btn" style="background-color: #ff3366; color: #fff;">💥 CLEAR ALL BODIES</button>
+
+        <div class="control-group">
+          <label>NEW BODY SPAWN MASS</label>
+          <div class="ratio-display" id="massDisplayTxt">100 Solar Masses</div>
+          <div class="slider-row">
+            <div class="slider-container">
+              <input type="range" id="spawnMassSlider" min="1" max="5000" step="1" value="100">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pagePresets" style="display: none;">
+        <p>Select a mathematical orbital geometry archetype to instantiate.</p>
+        <div class="preset-grid">
+          <button class="mode-btn preset-btn" data-preset="solar">☀️ Solar System</button>
+          <button class="mode-btn preset-btn" data-preset="figure8">♾️ Figure-8 3-Body</button>
+          <button class="mode-btn preset-btn" data-preset="lagrange">📐 Lagrange L4 System</button>
+          <button class="mode-btn preset-btn" data-preset="chaos">🌀 Chaotic Binary</button>
+        </div>
+      </div>
+
+      <div id="pageEnv" style="display: none;">
+        <p>Alter the fundamental laws governing the orbital engine.</p>
+        
+        <div class="control-group">
+          <label>GRAVITATIONAL CONSTANT (G)</label>
+          <div class="ratio-display" id="gTxt">1.00</div>
+          <div class="slider-row">
+            <div class="slider-container">
+              <input type="range" id="gSlider" min="0.1" max="10" step="0.05" value="1.00">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>COLLISION SMOOTHING (Softening factor ε)</label>
+          <div class="ratio-display" id="softeningTxt">15.00 px</div>
+          <div class="slider-row">
+            <div class="slider-container">
+              <input type="range" id="softeningSlider" min="0" max="100" step="1" value="15">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group" style="border-bottom: none;">
+          <label>INTEGRATOR SUBSTEPPING LOOP</label>
+          <div class="ratio-display" id="substepTxt">4 steps / frame</div>
+          <div class="slider-row">
+            <div class="slider-container">
+              <input type="range" id="substepSlider" min="1" max="10" step="1" value="4">
+              <div class="slider-ticks" data-ticks="10"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pageGuide" style="display: none;">
+        <div class="control-group">
+          <label>KEYBOARD SHORTCUTS</label>
+          <div class="guide-row"><span class="guide-key">Space</span><span>Pause / Resume Engine</span></div>
+          <div class="guide-row"><span class="guide-key">C</span><span>Clear Sandbox Workspace</span></div>
+          <div class="guide-row"><span class="guide-key">G</span><span>Toggle Background Grid</span></div>
+          <div class="guide-row"><span class="guide-key">T</span><span>Toggle Geometry Trails</span></div>
+          <div class="guide-row"><span class="guide-key">H</span><span>Minimize / Maximize UI Panel</span></div>
+        </div>
+
+        <div class="control-group" style="border-bottom: none;">
+          <label>MOUSE INTERACTION</label>
+          <div class="guide-row"><span class="guide-key">Left Click Empty</span><span>Drag to Slingshot Launch new body</span></div>
+          <div class="guide-row"><span class="guide-key">Left Click Body</span><span>Grab and position item in real-time</span></div>
+          <div class="guide-row"><span class="guide-key">Right Drag / Shift</span><span>Pan camera coordinates across map</span></div>
+          <div class="guide-row"><span class="guide-key">Scroll Wheel</span><span>Zoom Viewport (0.2x – 4.0x)</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="telemetry-control">
+    <div id="telemetry-dropdown">
+      <div class="telem-label">SYSTEM METRICS TELEMETRY</div>
+      <div class="telem-row" id="rowEnergy">
+        <div class="telem-pip on" id="pipEnergy"></div>
+        <span>Mechanical Energy Matrix</span>
+      </div>
+      <div class="telem-row" id="rowFps">
+        <div class="telem-pip on" id="pipFps"></div>
+        <span>Performance FPS Counter</span>
+      </div>
+    </div>
+    <button id="telemetryBtn">TELEMETRY ▲</button>
+  </div>
+
+  <canvas id="canvas"></canvas>
+  <script src="script.js"></script>
+</body>
+</html>
